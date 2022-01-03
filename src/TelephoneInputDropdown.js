@@ -35,3 +35,5 @@ export class TelephoneInputDropdown extends LitElement {
     `;
   }
 }
+
+customElements.define('telephone-input-dropdown', TelephoneInputDropdown);
