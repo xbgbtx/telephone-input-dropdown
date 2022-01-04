@@ -13,27 +13,31 @@ export class TelephoneInputDropdown extends LitElement {
 
   static get properties() {
     return {
-      title: { type: String },
-      counter: { type: Number },
+      value: { type: String },
+      format: { type: String },
     };
   }
 
   constructor() {
     super();
-    this.title = 'Hey there';
-    this.counter = 5;
-  }
-
-  __increment() {
-    this.counter += 1;
+    this.value = null;
+    this.format = '(dddd)-ddd-ddd';
   }
 
   render() {
     return html`
-      <h2>${this.title} Nr. ${this.counter}!</h2>
-      <button @click=${this.__increment}>increment</button>
+      <label for="number-inputs">Input telephone number:</label>
+      <fieldset id="number-inputs">${this.generateFormInputs()}</fieldset>
     `;
+  }
+
+  generateFormInputs() {
+    return this.format.split('').map(f => TelephoneInputDropdown.formInput(f));
+  }
+
+  static formInput(f) {
+    return html`<p>${f}</p>`;
   }
 }
 
-customElements.define('telephone-input-dropdown', TelephoneInputDropdown);
+//customElements.define('telephone-input-dropdown', TelephoneInputDropdown);
