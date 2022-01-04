@@ -39,5 +39,3 @@ export class TelephoneInputDropdown extends LitElement {
     return html`<p>${f}</p>`;
   }
 }
-
-//customElements.define('telephone-input-dropdown', TelephoneInputDropdown);
