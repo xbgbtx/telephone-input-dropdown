@@ -23,6 +23,15 @@ export class TelephoneInputDropdown extends LitElement {
       .number-select {
         transform: translateY(-25%);
       }
+      .visually-hidden:not(:focus):not(:active) {
+        clip: rect(0 0 0 0);
+        clip-path: inset(100%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
     `;
   }
 
@@ -61,7 +70,10 @@ export class TelephoneInputDropdown extends LitElement {
     for (const c of formatChars) {
       switch (c) {
         case 'd':
-          output.push(html` <label for=${inputIdString()}
+          output.push(html` <label
+              class="visually-hidden"
+              for=${inputIdString()}
+              aria-hidden="true"
               >Number input ${nextInputId}</label
             >
             <select
