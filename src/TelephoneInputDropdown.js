@@ -36,6 +36,14 @@ export class TelephoneInputDropdown extends LitElement {
   }
 
   static formInput(f) {
-    return html`<p>${f}</p>`;
+    const digits = [...Array(10).keys()];
+    switch (f) {
+      case 'd':
+        return html`<select>
+          ${digits.map(d => html`<option>${d}</option>`)}
+        </select>`;
+      default:
+        return html`<span>${f}</span>`;
+    }
   }
 }
