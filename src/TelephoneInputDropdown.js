@@ -41,22 +41,31 @@ export class TelephoneInputDropdown extends LitElement {
     return html`
       <label for="number-inputs">Input telephone number:</label>
       <fieldset id="number-inputs">${this.generateFormInputs()}</fieldset>
+      <p>Value: ${this.value}</p>
     `;
   }
 
-  generateFormInputs() {
-    return this.format.split('').map(f => TelephoneInputDropdown.formInput(f));
-  }
-
-  static formInput(f) {
+  formInput(f) {
     const digits = [...Array(10).keys()];
+    const changeHandler = e => {
+      this.value = this.readNumbers();
+    };
     switch (f) {
       case 'd':
-        return html`<select class="number-select">
+        return html`<select class="number-select" @change=${changeHandler}>
           ${digits.map(d => html`<option>${d}</option>`)}
         </select>`;
       default:
         return html`<span class="format-text">${f}</span>`;
     }
+  }
+
+  generateFormInputs() {
+    return this.format.split('').map(f => this.formInput(f));
+  }
+
+  readNumbers() {
+    const fieldset = this.shadowRoot.getElementById('number-inputs');
+    return [...fieldset.childNodes].map(n => n.value).join('');
   }
 }
