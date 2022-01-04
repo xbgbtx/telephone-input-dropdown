@@ -8,6 +8,19 @@ export class TelephoneInputDropdown extends LitElement {
         padding: 25px;
         color: var(--telephone-input-dropdown-text-color, #000);
       }
+
+      .format-text {
+        font-size: xxx-large;
+      }
+
+      #number-inputs {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .number-select {
+        transform: translateY(-25%);
+      }
     `;
   }
 
@@ -39,11 +52,11 @@ export class TelephoneInputDropdown extends LitElement {
     const digits = [...Array(10).keys()];
     switch (f) {
       case 'd':
-        return html`<select>
+        return html`<select class="number-select">
           ${digits.map(d => html`<option>${d}</option>`)}
         </select>`;
       default:
-        return html`<span>${f}</span>`;
+        return html`<span class="format-text">${f}</span>`;
     }
   }
 }
