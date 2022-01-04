@@ -11,6 +11,8 @@ export class TelephoneInputDropdown extends LitElement {
 
       .format-text {
         font-size: xxx-large;
+        padding-left: 2px;
+        padding-right: 3px;
       }
 
       #number-inputs {
@@ -34,38 +36,60 @@ export class TelephoneInputDropdown extends LitElement {
   constructor() {
     super();
     this.value = null;
-    this.format = '(dddd)-ddd-ddd';
+    this.format = '(dddd)-ddd-dddd';
   }
 
   render() {
     return html`
-      <label for="number-inputs">Input telephone number:</label>
-      <fieldset id="number-inputs">${this.generateFormInputs()}</fieldset>
-      <p>Value: ${this.value}</p>
+      <fieldset id="number-inputs">
+        <legend>Telephone Number</legend>
+        ${this.generateFormInputs()}
+      </fieldset>
     `;
   }
 
-  formInput(f) {
+  generateFormInputs() {
+    const formatChars = this.format.split('');
+    const output = [];
     const digits = [...Array(10).keys()];
-    const changeHandler = e => {
+    const changeHandler = () => {
       this.value = this.readNumbers();
     };
-    switch (f) {
-      case 'd':
-        return html`<select class="number-select" @change=${changeHandler}>
-          ${digits.map(d => html`<option>${d}</option>`)}
-        </select>`;
-      default:
-        return html`<span class="format-text">${f}</span>`;
-    }
-  }
+    let nextInputId = 1;
+    const inputIdString = () => `number-select-${nextInputId}`;
 
-  generateFormInputs() {
-    return this.format.split('').map(f => this.formInput(f));
+    for (const c of formatChars) {
+      switch (c) {
+        case 'd':
+          output.push(html` <label for=${inputIdString()}
+              >Number input ${nextInputId}</label
+            >
+            <select
+              id=${inputIdString()}
+              class="number-select"
+              @change=${changeHandler}
+              aria-label="number select"
+            >
+              ${digits.map(d => html`<option>${d}</option>`)}
+            </select>`);
+          nextInputId += 1;
+          break;
+        default:
+          output.push(html`<span class="format-text">${c}</span>`);
+      }
+    }
+    return output;
   }
 
   readNumbers() {
+    const fields = this.getNumberSelects();
+    return fields.map(n => n.value).join('');
+  }
+
+  getNumberSelects() {
     const fieldset = this.shadowRoot.getElementById('number-inputs');
-    return [...fieldset.childNodes].map(n => n.value).join('');
+    return [...fieldset.childNodes].filter(
+      f => f.tagName.toLowerCase() === 'select'
+    );
   }
 }
