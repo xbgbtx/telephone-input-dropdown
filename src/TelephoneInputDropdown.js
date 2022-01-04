@@ -101,7 +101,7 @@ export class TelephoneInputDropdown extends LitElement {
   getNumberSelects() {
     const fieldset = this.shadowRoot.getElementById('number-inputs');
     return [...fieldset.childNodes].filter(
-      f => f.tagName.toLowerCase() === 'select'
+      f => f.tagName != null && f.tagName.toLowerCase() === 'select'
     );
   }
 }
