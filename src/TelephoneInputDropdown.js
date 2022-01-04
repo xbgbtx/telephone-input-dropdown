@@ -6,7 +6,6 @@ export class TelephoneInputDropdown extends LitElement {
       :host {
         display: block;
         padding: 25px;
-        color: var(--telephone-input-dropdown-text-color, #000);
       }
 
       .format-text {
